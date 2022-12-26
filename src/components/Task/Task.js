@@ -2,7 +2,7 @@ import React from "react";
 import './Task.css';
 
 
-const Task = ( {label, completed,className}) => {
+const Task = ( {label, completed,classN}) => {
 
     const style = {
         color: completed ? '#cdcdcd' : '#4d4d4d',
@@ -10,7 +10,7 @@ const Task = ( {label, completed,className}) => {
     };
 
     return(
-        <span className = {className}>
+        <span className = {classN}>
         <div className='view'>
             <input className="toggle" 
             type="checkbox" />
@@ -20,7 +20,6 @@ const Task = ( {label, completed,className}) => {
                     style={style}>
                         {label}
                         </span>
-                    <span className="created">created 5 minutes ago</span>
                 </label>
             <button type='button'className='icon icon-edit float-right'></button>
             <button type='button'className='icon icon-destroy float-right'></button>

@@ -1,26 +1,37 @@
 import React from "react";
+import TasksFilter from "../TasksFilter/TasksFilter";
 import './Footer.css'
 
 
 const Footer = () => {
+  const btnData = [ 
+    {label: 'All', classN: 'selected' ,id: 1},
+    {label: 'Active',id: 2},
+    {label: 'Completed', id: 3},
+  ];
+
+
+  const elements = btnData.map((item) => {
+      
+    const { id, ...itemProps } = item;
+
+    return (
+        <li key={id} >
+            <TasksFilter { ...itemProps} />
+        </li>
+    );
+  })
+
     return(
         <footer className="footer">
           <span className="todo-count">1 items left</span>
           <ul className="filters">
-            <li>
-              <button className="selected">All</button>
-            </li>
-            <li>
-              <button>Active</button>
-            </li>
-            <li>
-              <button>Completed</button>
-            </li>
+          { elements }
           </ul>
           <button className="clear-completed">Clear completed</button>
         </footer>
     );
-
 };
+
 
 export default Footer;
