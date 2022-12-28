@@ -1,5 +1,5 @@
-.toggle {
-	text-align: center;
+ .toggle {
+
 	width: 40px;
 	height: auto;
 	position: absolute;
@@ -12,9 +12,6 @@
 	cursor: pointer;
 }
 
-.toggle {
-	opacity: 0;
-}
 
 .toggle + label {
 	background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
@@ -33,13 +30,13 @@ label {
 	padding: 15px 85px 15px 60px;
 }
 
-label .created {
+/*label .created {
 	font-size: 13px;
 	color: gray;
 	
-}
+}*/
 
-label .description {
+.description {
 	position: relative;
     font-size: 24px;
 	word-break: break-all;
@@ -50,11 +47,11 @@ label .description {
 	color: #4d4d4d;
 }
 
-/*li.completed label .description {
-	color: #cdcdcd;
+.completed{
+	color:#cdcdcd;
 	text-decoration: line-through;
 }
-*/
+
 .icon {
 	position: relative;
 	top: -55px;

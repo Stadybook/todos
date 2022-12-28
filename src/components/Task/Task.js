@@ -1,31 +1,54 @@
-import React from "react";
+import React, { Component } from "react";
 import './Task.css';
 
+export default class Task extends Component{
 
-const Task = ( {label, completed,classN}) => {
+    state = {
+        completed: false,
 
-    const style = {
-        color: completed ? '#cdcdcd' : '#4d4d4d',
-        textDecoration: completed ? 'line-through' : 'none'
+    }
+
+    onLabelClick = () =>{
+        this.setState((state) => {
+            return {
+                completed: !state.completed
+            };
+        });
     };
+
+    render(){
+
+    const {label, classN, onDeleted,id} = this.props;
+    console.log(this.props)
+    const { completed } = this.state;
+    
+
+    let classNames = 'description';
+    if(completed){
+        classNames += ' completed';
+    }
 
     return(
         <span className = {classN}>
         <div className='view'>
-            <input className="toggle" 
-            type="checkbox" />
-                <label>
+            <input id={id} className="toggle" type="checkbox" />
+                <label htmlFor={id} >
                     <span 
-                    className="description"
-                    style={style}>
+                    className={classNames}
+                    onClick={ this.onLabelClick }>
                         {label}
-                        </span>
+                    </span>
                 </label>
             <button type='button'className='icon icon-edit float-right'></button>
-            <button type='button'className='icon icon-destroy float-right'></button>
+            <button type='button'
+            className='icon icon-destroy float-right'
+            onClick={onDeleted}>  
+            </button>
         </div>
         </span>
         );
-};
 
-export default Task;
+    }
+
+}
+

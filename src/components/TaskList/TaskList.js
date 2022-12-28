@@ -2,7 +2,7 @@ import React from "react";
 import Task from "../Task";
 import './TaskList.css';
 
-const TaskList = ({ todos }) => {
+const TaskList = ({ todos, onDeleted }) => {
 
     const elements = todos.map((item) => {
       
@@ -12,7 +12,8 @@ const TaskList = ({ todos }) => {
         if(item.classN !== 'editing'){
         return (
             <li key={id} >
-                <Task { ...itemProps} />
+                <Task { ...itemProps} 
+                 onDeleted={() => onDeleted(id)}/>
             </li>
         );
       }
@@ -20,7 +21,8 @@ const TaskList = ({ todos }) => {
         const text = "Editing task"
         return (
           <li key={id}>
-            <Task { ...itemProps} />
+            <Task { ...itemProps}
+            onDeleted={() => console.log('deleted')} />
             <input type="text" className="edit" placeholder={text} />
           </li>
       );
