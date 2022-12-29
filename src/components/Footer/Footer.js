@@ -3,7 +3,7 @@ import TasksFilter from "../TasksFilter/TasksFilter";
 import './Footer.css'
 
 
-const Footer = () => {
+const Footer = ({todoTasks}) => {
   const btnData = [ 
     {label: 'All', classN: 'selected' ,id: 1},
     {label: 'Active',id: 2},
@@ -24,7 +24,7 @@ const Footer = () => {
 
     return(
         <footer className="footer">
-          <span className="todo-count">1 items left</span>
+          <span className="todo-count">{todoTasks} items left</span>
           <ul className="filters">
           { elements }
           </ul>

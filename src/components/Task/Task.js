@@ -3,49 +3,35 @@ import './Task.css';
 
 export default class Task extends Component{
 
-    state = {
-        completed: false,
-
-    }
-
-    onLabelClick = () =>{
-        this.setState((state) => {
-            return {
-                completed: !state.completed
-            };
-        });
-    };
-
     render(){
 
-    const {label, classN, onDeleted,id} = this.props;
-    console.log(this.props)
-    const { completed } = this.state;
-    
-
+    const {label, onDeleted, id, checked, onToggleCompleted,onToggleChecked, onEditeTask, completed} = this.props;
     let classNames = 'description';
-    if(completed){
+
+    if(completed || checked){
         classNames += ' completed';
     }
 
+
     return(
-        <span className = {classN}>
         <div className='view'>
-            <input id={id} className="toggle" type="checkbox" />
-                <label htmlFor={id} >
+            <input id={id} className="toggle" type="checkbox" 
+            onClick={onToggleChecked}/>
+                <label htmlFor= {id}>
                     <span 
                     className={classNames}
-                    onClick={ this.onLabelClick }>
+                    onClick={onToggleCompleted}>
                         {label}
                     </span>
                 </label>
-            <button type='button'className='icon icon-edit float-right'></button>
+            <button type='button'
+            className='icon icon-edit float-right'
+            onClick={onEditeTask}></button>
             <button type='button'
             className='icon icon-destroy float-right'
             onClick={onDeleted}>  
             </button>
         </div>
-        </span>
         );
 
     }

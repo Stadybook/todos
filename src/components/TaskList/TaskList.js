@@ -2,28 +2,31 @@ import React from "react";
 import Task from "../Task";
 import './TaskList.css';
 
-const TaskList = ({ todos, onDeleted }) => {
+const TaskList = ({ todos, onDeleted, onToggleCompleted, onToggleChecked, onEditeTask}) => {
 
+ 
     const elements = todos.map((item) => {
       
-        const { id, ...itemProps } = item;
-        
-      
-        if(item.classN !== 'editing'){
+        const { id} = item;
+        if(!item.edit){
         return (
             <li key={id} >
-                <Task { ...itemProps} 
-                 onDeleted={() => onDeleted(id)}/>
+                <Task { ...item} 
+                 onDeleted={() => onDeleted(id)}
+                 onToggleCompleted={() => onToggleCompleted(id)}
+                 onEditeTask={() => onEditeTask(id)}
+                 onToggleChecked={() => onToggleChecked(id)}/>
             </li>
         );
       }
       else{
         const text = "Editing task"
         return (
-          <li key={id}>
-            <Task { ...itemProps}
-            onDeleted={() => console.log('deleted')} />
-            <input type="text" className="edit" placeholder={text} />
+          <li key={id} className='editing'> 
+            <Task { ...item} />
+            <input type="text" 
+            className="edit" 
+            placeholder={text}/>
           </li>
       );
       }
