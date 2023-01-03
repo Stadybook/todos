@@ -1,41 +1,61 @@
- .toggle {
+.todo-list li.editing {
+	border-bottom: none;
+	padding: 0;
+}
+
+.todo-list li.editing .edit {
+	display: block;
+	width: calc(100% - 43px);
+	padding: 12px 16px;
+	margin: 0 0 0 43px;
+}
+
+.todo-list li.editing .view {
+	display: none;
+}
+
+.todo-list li .toggle {
 	text-align: center;
 	width: 40px;
-	height: 0;
+
+	height: auto;
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	margin: auto 0;
-	border: none; 
+	border: none;
 	-webkit-appearance: none;
 	appearance: none;
 	cursor: pointer;
 }
 
+.todo-list li .toggle {
+	opacity: 0;
+}
 
-.toggle + label {
+.todo-list li .toggle + label {
+
 	background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
 	background-repeat: no-repeat;
 	background-position: center left;
 }
 
-.toggle:checked + label {
+.todo-list li .toggle:checked + label {
 	background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23bddad5%22%20stroke-width%3D%223%22/%3E%3Cpath%20fill%3D%22%235dc2af%22%20d%3D%22M72%2025L42%2071%2027%2056l-4%204%2020%2020%2034-52z%22/%3E%3C/svg%3E');
 }
 
-label {
-	margin: 0;
+.todo-list li label {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 15px 85px 15px 60px;
 }
 
-label .created {
+.todo-list li label .created {
 	font-size: 13px;
 	color: gray;
-	
 }
+
 
 .description {
 	position: relative;
@@ -53,38 +73,40 @@ label .created {
 	text-decoration: line-through;
 }
 
-.icon {
-	position: relative;
-	top: -55px;
+.todo-list li .icon {
+	position: absolute;
+	top: 0;
+	bottom: -3px;
 	width: 30px;
 	height: 40px;
 	font-size: 34px;
 	color: #cc9a9a;
-	margin: auto 0 11px;
+	margin: 11px 0 11px 0;
 	transition: color 0.2s ease-out;
 	cursor: pointer;
 }
 
-.icon:hover {
+.todo-list li .icon:hover {
 	color: #af5b5e;
 }
 
-.icon-destroy {
-	right: -10px;
+.todo-list li .icon-destroy {
+	right: 10px;
 }
 
-.icon-destroy:after {
+.todo-list li .icon-destroy:after {
 	content: '×';
 }
 
-.icon-edit {
+.todo-list li .icon-edit {
 	font-size: 19px;
 	right: 45px;
 }
 
-.icon-edit:after {
+.todo-list li .icon-edit:after {
 	content: '✎';
 }
+
 
 .todo-list li.editing {
 	border-bottom: none;
@@ -92,13 +114,9 @@ label .created {
 	height: auto;
 }
 
-li.editing .edit {
-	display: block;
-	width: calc(100% - 43px);
-	padding: 12px 16px;
-	margin: 0 0 0 43px;
 
-
+.todo-list li .edit {
+	display: none;
 }
 
 .edit {
@@ -119,35 +137,3 @@ li.editing .edit {
 .todo-list li.editing .view {
 	display: none;
 }
-
-
-/*.editing .view {
-	display: none;
-}
-
-.editing {
-	border-bottom: none;
-	padding: 0;
-	max-height: 60px;
-}
-
-.edit {
-	font-family: inherit;
-	font-style: normal;
-	font-weight: inherit;
-	line-height: 1.4em;
-	color: inherit;
-	border: 1px solid #999;
-	box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
-	box-sizing: border-box;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.editing .edit {
-	display: block;
-	width: calc(100% - 43px);
-	padding: 12px 16px;
-	margin: 0 0 0 43px;
-}*/
-

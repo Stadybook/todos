@@ -11,11 +11,8 @@ export default class App extends Component {
 
   state = {
     todoData : [ 
-      {label: 'Completed task',completed: false,checked: false, edit: false, id: 1},
-      {label: 'Editing task',completed: false,checked: false,edit: false, id: 2},
-      {label: 'Active task',completed: false,checked: false, edit: false,  id: 3},
+     
     ],
-
     filter:'All'
   }
 
@@ -41,12 +38,12 @@ export default class App extends Component {
       id:this.state.todoData.length + 1,
       checked: false,
       edit:false,
-      data:new Date()
+      date:new Date(),
     }
+    
     
     this.setState(({ todoData }) => {
       const newData = [...todoData, newTask]
-
       return {
         todoData: newData
       }
@@ -103,9 +100,37 @@ export default class App extends Component {
     });
   };
 
-  filterTask = (classN) => {
-    if(classN === 'selected')
-    console.log('selected')
+  
+  /*editeTask = (id) => {
+    console.log('edit')
+    this.setState(({ todoData }) => {
+
+      const index = todoData.findIndex((el) => el.id === id);
+
+      const oldItem = todoData[index];
+      const newItem = {...oldItem,
+        edit: !oldItem.edit};
+  
+      const newData = [
+      ...todoData.slice(0, index),
+        newItem,
+        ...todoData.slice(index + 1)
+      ]
+
+      return{
+        todoData: newData
+      }
+    });
+  };*/
+
+  filterTask = (label) => {
+    this.setState(() => {
+      const newFilter = label
+      return{
+        filter: newFilter
+     };
+    });
+    console.log(this.state.filter)
   }
 
   clearCompleted= () => {

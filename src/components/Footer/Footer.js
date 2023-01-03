@@ -5,21 +5,21 @@ import './Footer.css'
 
 const Footer = ({todoTasks, onfilterTask, onClearCompleted} ) => {
   const btnData = [ 
-    {label: 'All', classN: 'selected' ,id: 1},
-    {label: 'Active',id: 2},
-    {label: 'Completed', id: 3},
+    {label: 'All' ,id: 1, selected:false},
+    {label: 'Active',id: 2,  selected:false},
+    {label: 'Completed', id: 3,  selected:false},
   ];
 
 
   const elements = btnData.map((item) => {
       
     const { id, ...itemProps } = item;
-    const {classN} = itemProps
+    const {label} = itemProps
 
     return (
         <li key={id} >
             <TasksFilter { ...itemProps} 
-            onfilterTask={() => onfilterTask(classN)}/>
+            onfilterTask={() => onfilterTask(label)}/>
         </li>
     );
   })

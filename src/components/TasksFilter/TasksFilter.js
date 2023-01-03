@@ -5,8 +5,13 @@ export default class TasksFilter extends Component{
 
   render(){
 
-  const {label, classN, onfilterTask} = this.props;
+  const {label,onfilterTask,selected} = this.props;
 
+  let classN = '';
+
+    if(selected){
+        classN += 'selected';
+    }
 
     return(
       <button
