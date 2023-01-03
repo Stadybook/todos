@@ -7,7 +7,7 @@ const TaskList = ({ todos, onDeleted, onToggleCompleted, onToggleChecked, onEdit
  
     const elements = todos.map((item) => {
       
-        const { id} = item;
+        const {id} = item;
         if(!item.edit){
         return (
             <li key={id} >

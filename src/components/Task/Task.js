@@ -23,6 +23,7 @@ export default class Task extends Component{
                     onClick={onToggleCompleted}>
                         {label}
                     </span>
+                    <span className="created">created 17 seconds ago</span>
                 </label>
             <button type='button'
             className='icon icon-edit float-right'

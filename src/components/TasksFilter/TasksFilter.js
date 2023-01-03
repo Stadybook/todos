@@ -5,11 +5,13 @@ export default class TasksFilter extends Component{
 
   render(){
 
-  const {label, classN} = this.props;
+  const {label, classN, onfilterTask} = this.props;
+
 
     return(
       <button
-       className={classN}>
+       className={classN}
+       onClick={onfilterTask}>
          {label}
        </button>
     );

@@ -14,7 +14,9 @@ export default class App extends Component {
       {label: 'Completed task',completed: false,checked: false, edit: false, id: 1},
       {label: 'Editing task',completed: false,checked: false,edit: false, id: 2},
       {label: 'Active task',completed: false,checked: false, edit: false,  id: 3},
-    ]
+    ],
+
+    filter:'All'
   }
 
  
@@ -84,6 +86,14 @@ export default class App extends Component {
     });
   };
 
+  onToggleSelectedBtn = (id) => {
+    this.setState(({ todoData }) => {
+      return{
+        todoData: this.toggleProperty(todoData, id, 'selected')
+     };
+    });
+  };
+
   editeTask = (id) => {
     console.log('edit')
     this.setState(({ todoData }) => {
@@ -93,11 +103,43 @@ export default class App extends Component {
     });
   };
 
+  filterTask = (classN) => {
+    if(classN === 'selected')
+    console.log('selected')
+  }
+
+  clearCompleted= () => {
+    this.setState(({ todoData }) => {
+
+      const tasks = todoData.filter((el) => el.completed || el.checked);
+      if(tasks.length === 0) return
+
+      let arrIndexs = []
+      tasks.forEach(element => {
+        arrIndexs.push(element.id)
+      });
+
+      let newData = [...todoData]
+
+      arrIndexs.forEach(function(id){
+        const index = newData.findIndex((el) => el.id === id);
+        newData = [...newData.slice(0, index), ...newData.slice(index + 1)];  
+      })
+
+      return{
+        todoData: newData
+     };
+
+    });
+
+  }
+
+
   
 render(){
 
-  const { todoData } =this.state;
-  const completedTasks = todoData.filter((el) => el.completed).length;
+  const { todoData } = this.state;
+  const completedTasks = todoData.filter((el) => el.completed || el.checked).length;
   const todoTasks = todoData.length - completedTasks;
 
     return (
@@ -112,8 +154,12 @@ render(){
             onToggleCompleted={this.onToggleCompleted}
             onToggleChecked={this.onToggleChecked}
             onEditeTask={this.editeTask}/>
+          
+          <Footer 
+          todoTasks={todoTasks}
+          onfilterTask={this.filterTask}
+          onClearCompleted={this.clearCompleted}/>
           </section>
-          <Footer todoTasks={todoTasks}/>
       </section>
     );
   }

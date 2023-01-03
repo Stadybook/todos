@@ -3,7 +3,7 @@ import TasksFilter from "../TasksFilter/TasksFilter";
 import './Footer.css'
 
 
-const Footer = ({todoTasks}) => {
+const Footer = ({todoTasks, onfilterTask, onClearCompleted} ) => {
   const btnData = [ 
     {label: 'All', classN: 'selected' ,id: 1},
     {label: 'Active',id: 2},
@@ -14,10 +14,12 @@ const Footer = ({todoTasks}) => {
   const elements = btnData.map((item) => {
       
     const { id, ...itemProps } = item;
+    const {classN} = itemProps
 
     return (
         <li key={id} >
-            <TasksFilter { ...itemProps} />
+            <TasksFilter { ...itemProps} 
+            onfilterTask={() => onfilterTask(classN)}/>
         </li>
     );
   })
@@ -28,7 +30,11 @@ const Footer = ({todoTasks}) => {
           <ul className="filters">
           { elements }
           </ul>
-          <button className="clear-completed">Clear completed</button>
+          <button 
+          className="clear-completed"
+          onClick={onClearCompleted}>
+            Clear completed
+          </button>
         </footer>
     );
 };

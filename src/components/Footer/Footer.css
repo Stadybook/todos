@@ -1,14 +1,14 @@
 .footer {
 	display: flex;
-	justify-content: space-between;
+	justify-content:space-between;
 	align-items: center;
 	padding: 10px 15px;
-	height: 20px;
 	text-align: center;
 	font-size: 15px;
 	border-top: 1px solid #e6e6e6;
 	color: gray;
 	height: 50px;
+
 }
 
 .footer:before {
@@ -54,6 +54,7 @@ html .clear-completed:active {
 	line-height: 20px;
 	text-decoration: none;
 	cursor: pointer;
+	
 }
 
 .clear-completed:hover {
