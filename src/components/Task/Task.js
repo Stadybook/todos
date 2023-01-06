@@ -6,12 +6,14 @@ export default class Task extends Component{
 
     render(){
 
-    const {label,date, onDeleted, id, checked, onToggleCompleted,onToggleChecked, onEditeTask, completed} = this.props;
+    const {label, date, onDeleted, id, checked, onToggleCompleted,onToggleChecked, onEditeTask, completed} = this.props;
     let classNames = 'description';
 
     if(completed || checked){
         classNames += ' completed';
     }
+
+    //console.log(checked,completed)
 
     const result = formatDistanceToNow(date, {includeSeconds:true})
 
@@ -26,7 +28,7 @@ export default class Task extends Component{
                     onClick={onToggleCompleted}>
                         {label}
                     </span>
-                    <span className="created">{result}</span>
+                    <span className="created">created {result}</span>
                 </label>
             <button type='button'
             className='icon icon-edit float-right'

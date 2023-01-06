@@ -8,6 +8,10 @@ export default class NewTaskForm extends Component {
     label:''
   };
 
+  static defaultProps ={
+    
+  }
+
 
   onLabelChange = (e) => {
 

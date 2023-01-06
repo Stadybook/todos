@@ -1,43 +1,30 @@
-import React from "react";
+import React, { Component } from "react";
 import TasksFilter from "../TasksFilter/TasksFilter";
 import './Footer.css'
 
 
-const Footer = ({todoTasks, onfilterTask, onClearCompleted} ) => {
-  const btnData = [ 
-    {label: 'All' ,id: 1, selected:false},
-    {label: 'Active',id: 2,  selected:false},
-    {label: 'Completed', id: 3,  selected:false},
-  ];
+export default class Footer extends Component{
+  
+  render(){
 
+    const {todoTasks,filter, onfilterTask, onClearCompleted, filterTodoData, choseFilter} = this.props;
 
-  const elements = btnData.map((item) => {
-      
-    const { id, ...itemProps } = item;
-    const {label} = itemProps
+      return(
+          <footer className="footer">
+            <span className="todo-count">{todoTasks} items left</span>
+            <TasksFilter 
+            filter={filter}
+            onfilterTask={(label) => onfilterTask(label)} 
+            filterTodoData={() => filterTodoData()}
+            choseFilter={(btn,label) => choseFilter(btn, label)}/>
+            <button 
+            className="clear-completed"
+            onClick={onClearCompleted}>
+              Clear completed
+            </button>
+          </footer>
+      );
+  }
+} 
 
-    return (
-        <li key={id} >
-            <TasksFilter { ...itemProps} 
-            onfilterTask={() => onfilterTask(label)}/>
-        </li>
-    );
-  })
-
-    return(
-        <footer className="footer">
-          <span className="todo-count">{todoTasks} items left</span>
-          <ul className="filters">
-          { elements }
-          </ul>
-          <button 
-          className="clear-completed"
-          onClick={onClearCompleted}>
-            Clear completed
-          </button>
-        </footer>
-    );
-};
-
-
-export default Footer;
+  

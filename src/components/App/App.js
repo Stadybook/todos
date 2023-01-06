@@ -9,14 +9,50 @@ import './App.css'
 
 export default class App extends Component {
 
-  state = {
-    todoData : [ 
-     
-    ],
-    filter:'All'
-  }
+  constructor(props){
+    super(props)
+    this.state = {
+      todoData : [],
+      filter:'All',
+      currentItems: [],
+    };  
 
- 
+    this.state.currentItems = this.state.todoData
+
+  }
+  
+  render(){
+
+    const { todoData } = this.state;
+    const completedTasks = todoData.filter((el) => el.completed || el.checked).length;
+    const todoTasks = todoData.length - completedTasks;
+
+  
+      return (
+        <section className="todoapp">
+            <Header />
+            <NewTaskForm 
+            onTaskAdded={this.addTask.bind(this)}/>
+            <section className="main">
+              <TaskList 
+              todos={this.state.currentItems} 
+              onDeleted={this.deleteTask.bind(this)}
+              onToggleCompleted={this.onToggleCompleted.bind(this)}
+              onToggleChecked={this.onToggleChecked.bind(this)}
+              onEditeTask={this.editeTask.bind(this)}
+              onChangeName={this.changeName.bind(this)}/>
+            
+            <Footer 
+            choseFilter={this.choseFilter.bind(this)}
+            todoTasks={todoTasks}
+            filterTodoData={this.filterTodoData.bind(this)}
+            filter={this.state.filter}
+            onfilterTask={this.changeStatefilter.bind(this)}
+            onClearCompleted={this.clearCompleted.bind(this)}/>
+            </section>
+        </section>
+      );
+    }
 
   deleteTask = (id) => {
     this.setState(({ todoData }) => {
@@ -37,21 +73,23 @@ export default class App extends Component {
       label:text,
       id:this.state.todoData.length + 1,
       checked: false,
+      completed:false,
       edit:false,
       date:new Date(),
     }
-    
-    
+
     this.setState(({ todoData }) => {
       const newData = [...todoData, newTask]
+     
       return {
         todoData: newData
       }
     }) 
+    
   }
 
   toggleProperty(arr, id, propName){
-
+ 
     const index = arr.findIndex((el) => el.id === id);
 
     const oldItem = arr[index];
@@ -65,7 +103,6 @@ export default class App extends Component {
     ]
 
   }
-
 
   onToggleCompleted = (id) => {
     this.setState(({ todoData }) => {
@@ -83,23 +120,38 @@ export default class App extends Component {
     });
   };
 
-  onToggleSelectedBtn = (id) => {
-    this.setState(({ todoData }) => {
-      return{
-        todoData: this.toggleProperty(todoData, id, 'selected')
-     };
-    });
-  };
-
   editeTask = (id) => {
-    console.log('edit')
     this.setState(({ todoData }) => {
+
+      let newData = this.toggleProperty(todoData, id, 'edit');
       return{
-        todoData: this.toggleProperty(todoData, id, 'edit')
+        todoData: newData
      };
     });
   };
 
+  changeName = (id, text) => {
+    this.setState(({ todoData }) => {
+      id = Number(id)
+      const index = todoData.findIndex((el) =>el.id === id);
+      const oldItem = todoData[index];
+
+      const newItem = {...oldItem,
+      label: text,
+      edit: !oldItem.edit,
+      };
+
+      const newData = [
+        ...todoData.slice(0, index),
+        newItem,
+        ...todoData.slice(index + 1)
+      ]
+
+      return{
+        todoData: newData
+     };
+    });
+  }
   
   /*editeTask = (id) => {
     console.log('edit')
@@ -123,15 +175,56 @@ export default class App extends Component {
     });
   };*/
 
-  filterTask = (label) => {
+  changeStatefilter = (label) => {
     this.setState(() => {
       const newFilter = label
       return{
+        currentItems: this.state.todoData,
         filter: newFilter
      };
     });
-    console.log(this.state.filter)
+
   }
+
+  filterTodoData = (items) => {
+    this.setState(( { todoData }) => {
+      switch (this.state.filter) { 
+        case 'All':
+          //console.log('all')
+          return todoData;
+        case 'Active':
+         //console.log('active')
+          return todoData.filter((item) => !item.completed);
+        case 'Completed':
+         // console.log('completed')
+          return todoData.filter((item) => item.completed);
+        default:
+          return items;
+      }
+    });
+    
+   
+  };
+
+
+  choseFilter = (btn, label) => {
+    const newFilter = label
+    //console.log(this.state.filter)
+      if(btn === 'all') {
+        this.setState({
+          filter: newFilter,
+          currentItems:this.state.todoData
+        })
+        return
+      }
+
+      this.setState({
+        filter: label,
+        currentItems: this.state.todoData.filter(el => String(el.checked) === btn) 
+    })
+    
+  }
+
 
   clearCompleted= () => {
     this.setState(({ todoData }) => {
@@ -157,36 +250,6 @@ export default class App extends Component {
 
     });
 
-  }
-
-
-  
-render(){
-
-  const { todoData } = this.state;
-  const completedTasks = todoData.filter((el) => el.completed || el.checked).length;
-  const todoTasks = todoData.length - completedTasks;
-
-    return (
-      <section className="todoapp">
-          <Header />
-          <NewTaskForm 
-          onTaskAdded={ this.addTask}/>
-          <section className="main">
-            <TaskList 
-            todos={this.state.todoData} 
-            onDeleted={ this.deleteTask}
-            onToggleCompleted={this.onToggleCompleted}
-            onToggleChecked={this.onToggleChecked}
-            onEditeTask={this.editeTask}/>
-          
-          <Footer 
-          todoTasks={todoTasks}
-          onfilterTask={this.filterTask}
-          onClearCompleted={this.clearCompleted}/>
-          </section>
-      </section>
-    );
   }
 }
 
