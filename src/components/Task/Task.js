@@ -13,7 +13,7 @@ export default class Task extends Component{
         classNames += ' completed';
     }
 
-    //console.log(checked,completed)
+    console.log(checked,completed)
 
     const result = formatDistanceToNow(date, {includeSeconds:true})
 

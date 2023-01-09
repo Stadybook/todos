@@ -14,10 +14,7 @@ export default class App extends Component {
     this.state = {
       todoData : [],
       filter:'All',
-      currentItems: [],
     };  
-
-    this.state.currentItems = this.state.todoData
 
   }
   
@@ -27,6 +24,18 @@ export default class App extends Component {
     const completedTasks = todoData.filter((el) => el.completed || el.checked).length;
     const todoTasks = todoData.length - completedTasks;
 
+
+    let todoItemsShown;
+    switch (this.state.filter) {
+      case 'Completed':
+        todoItemsShown = todoData.filter((el) => el.completed);
+        break;
+      case 'Active':
+        todoItemsShown = todoData.filter((el) => !el.completed);
+        break;
+      default:
+        todoItemsShown = todoData;
+    }
   
       return (
         <section className="todoapp">
@@ -35,7 +44,7 @@ export default class App extends Component {
             onTaskAdded={this.addTask.bind(this)}/>
             <section className="main">
               <TaskList 
-              todos={this.state.currentItems} 
+              todos={todoItemsShown} 
               onDeleted={this.deleteTask.bind(this)}
               onToggleCompleted={this.onToggleCompleted.bind(this)}
               onToggleChecked={this.onToggleChecked.bind(this)}
@@ -43,10 +52,7 @@ export default class App extends Component {
               onChangeName={this.changeName.bind(this)}/>
             
             <Footer 
-            choseFilter={this.choseFilter.bind(this)}
             todoTasks={todoTasks}
-            filterTodoData={this.filterTodoData.bind(this)}
-            filter={this.state.filter}
             onfilterTask={this.changeStatefilter.bind(this)}
             onClearCompleted={this.clearCompleted.bind(this)}/>
             </section>
@@ -72,7 +78,6 @@ export default class App extends Component {
     const newTask = {
       label:text,
       id:this.state.todoData.length + 1,
-      checked: false,
       completed:false,
       edit:false,
       date:new Date(),
@@ -88,14 +93,15 @@ export default class App extends Component {
     
   }
 
-  toggleProperty(arr, id, propName){
+  toggleProperty(arr, id, propName,propName2=undefined){
  
     const index = arr.findIndex((el) => el.id === id);
 
     const oldItem = arr[index];
     const newItem = {...oldItem,
-    [propName]: !oldItem[propName]};
-
+    [propName]: !oldItem[propName],
+    [propName2]: !oldItem[propName2]
+  }
     return[
     ...arr.slice(0, index),
       newItem,
@@ -107,7 +113,7 @@ export default class App extends Component {
   onToggleCompleted = (id) => {
     this.setState(({ todoData }) => {
       return{
-        todoData: this.toggleProperty(todoData, id, 'completed')
+        todoData: this.toggleProperty(todoData, id, 'completed','checked')
      };
     });
   };
@@ -153,59 +159,15 @@ export default class App extends Component {
     });
   }
   
-  /*editeTask = (id) => {
-    console.log('edit')
-    this.setState(({ todoData }) => {
-
-      const index = todoData.findIndex((el) => el.id === id);
-
-      const oldItem = todoData[index];
-      const newItem = {...oldItem,
-        edit: !oldItem.edit};
-  
-      const newData = [
-      ...todoData.slice(0, index),
-        newItem,
-        ...todoData.slice(index + 1)
-      ]
-
-      return{
-        todoData: newData
-      }
-    });
-  };*/
-
   changeStatefilter = (label) => {
     this.setState(() => {
       const newFilter = label
       return{
-        currentItems: this.state.todoData,
         filter: newFilter
      };
     });
 
   }
-
-  filterTodoData = (items) => {
-    this.setState(( { todoData }) => {
-      switch (this.state.filter) { 
-        case 'All':
-          //console.log('all')
-          return todoData;
-        case 'Active':
-         //console.log('active')
-          return todoData.filter((item) => !item.completed);
-        case 'Completed':
-         // console.log('completed')
-          return todoData.filter((item) => item.completed);
-        default:
-          return items;
-      }
-    });
-    
-   
-  };
-
 
   choseFilter = (btn, label) => {
     const newFilter = label
@@ -224,7 +186,6 @@ export default class App extends Component {
     })
     
   }
-
 
   clearCompleted= () => {
     this.setState(({ todoData }) => {
