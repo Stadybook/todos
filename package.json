@@ -19,10 +19,16 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --debug src/",
-    "lint:write": "eslint --debug src/ --fix",
-    "format": "prettier --write src/**/*.js"
+    "lint:fix": "eslint --debug src/ --fix --color",
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
-  "eslintConfig": {},
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -35,30 +41,37 @@
       "last 1 safari version"
     ]
   },
-  "description": "Todos",
-  "main": "index.js",
   "devDependencies": {
-    "@babel/core": "^7.20.12",
     "@babel/eslint-parser": "^7.19.1",
-    "eslint": "^8.31.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.26.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "2.8.2"
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Serebrennikova-18/todos.git"
+  "husky": {
+    "pre-commit": "lint-staged"
   },
-  "keywords": [],
+  "lint-staged": {
+    "*.js": [
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!antd|@ant-design|rc-.+?|@babel/runtime).+(js|jsx)$"
+    ]
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Serebrennikova-18/todos/issues"
-  },
-  "homepage": "https://github.com/Serebrennikova-18/todos#readme"
+  "license": "ISC"
 }

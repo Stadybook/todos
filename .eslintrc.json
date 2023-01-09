@@ -1,66 +1,45 @@
-{    
-    "env": { 
-    "browser": true,
-    "es2021": true,
-    "jest": true
-    },
-    "ignorePatterns": ["node_modules","dist","build"],
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "airbnb",
-      "airbnb/hooks",
-      "plugin:react/jsx-runtime",
-      "plugin:import/errors", 
-      "plugin:import/warnings",
-      "plugin:jsx-a11y/recommended",
+{
+  "env": {
+      "browser": true,
+      "es2021": true
+  },
+"ignorePatterns": ["node_modules", "dist", "build"],
+  "extends": [
+    "airbnb",
       "eslint:recommended",
       "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
-      "plugin:prettier/recommended",
+  "prettier"
+  ],
+  "overrides": [],
+"parser": "@babel/eslint-parser",
+  "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module",
+      "babelOptions": {
+        "presets": ["@babel/preset-react"]
+     },
+  "requireConfigFile": false
+  },
+  "plugins": [
+      "react", "react-hooks",
       "prettier"
-
-    ],
-    "parser":"@babel/eslint-parser",
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true,
-        "globalReturn": false
-      },
-      "allowImportExportEverywhere": false,
-    "babelOptions": {
-    "configFile": "path/to/config.js "
-    },
-      "ecmaVersion": 2020,
-      "sourceType":"module"
-      },
-    "plugins": [
-      "jsx-a11y",
-      "react",
-      "import",
-      "prettier",
-      "react-hooks"
-     
-    ],
-    "rules": {
-        "react/no-unused-state": 0, 
-        "no-unused-vars": 0,
-        "react/jsx-props-no-spreading": 0,
-        "jsx-a11y/label-has-associated-control": 0,
-        "quotes": ["error", "double"],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "prettier/prettier": "error",
-        "react/react-in-jsx-scope": "off",
-        "react/prop-types": 0
-      },
-      "settings": {
-        "version": "detect",
-        "import/resolver": {
-          "node": {
-            "extensions": [".js", ".jsx"],
-            "moduleDirectory": ["node_modules","src/"]
-          }
-        }
-      }
+  ],
+  "rules": {
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+  "class-methods-use-this": [0],
+  "no-plusplus": [0],
+  "react/prop-types": 0,
+  "react/destructuring-assignment": [0, "always"],
+  "react/state-in-constructor": [0, "always"],
+    "no-console": "off",
+  "react/react-in-jsx-scope": "off",
+  "camelcase": ["error"],
+  "spaced-comment": "error",
+  "quotes": ["error", "single"],
+  "no-duplicate-imports": "error",
+  "react/jsx-filename-extension": [
+    2,
+    { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+  ]
   }
+}

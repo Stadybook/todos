@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import Task from "../Task";
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { Component } from 'react';
+import Task from '../Task';
 import './TaskList.css';
 
 export default class TaskList extends Component {
@@ -29,33 +30,35 @@ export default class TaskList extends Component {
       const {id} = item;
       if(!item.edit){
 
-      return (
+        return (
           <li key={id} className=''>
-              <Task { ...item} 
-               onDeleted={() => onDeleted(id)}
-               onToggleCompleted={() => onToggleCompleted(id)}
-               onEditeTask={() => onEditeTask(id)}
-               onToggleChecked={() => onToggleChecked(id)}/>
+            <Task { ...item} 
+              onDeleted={() => onDeleted(id)}
+              onToggleCompleted={() => onToggleCompleted(id)}
+              onEditeTask={() => onEditeTask(id)}
+              onToggleChecked={() => onToggleChecked(id)}/>
           </li>
-      );
-    }
-    else{
-      const text = "Editing task"
+        );
+      }
+      
+      const text = 'Editing task'
       return (
+        // eslint-disable-next-line react/jsx-no-comment-textnodes
         <li key={id} className='editing'> 
+          // eslint-disable-next-line react/jsx-props-no-spreading
           <Task { ...item} />
           <form className="" onSubmit={this.onSubmit} id={id}>
-          <input type="text" 
-          className="edit" 
-          placeholder={text}
-          onChange={this.onLabelChange}
+            <input type="text" 
+              className="edit" 
+              placeholder={text}
+              onChange={this.onLabelChange}
           
-          value={this.state.label}/>
+              value={this.state.label}/>
           </form>
         </li>
-    );
-    }
-  });
+      );
+    
+    });
 
     return (
       <ul className="todo-list">
