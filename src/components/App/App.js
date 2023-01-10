@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import Header from '../Header';
 import TaskList from '../TaskList';
 import NewTaskForm from '../NewTaskForm';
@@ -6,177 +7,164 @@ import Footer from '../Footer';
 import './App.css';
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todoData: [],
-      filter: 'All',
-    };
-  }
-
-  render() {
-    const { todoData } = this.state;
-    const completedTasks = todoData.filter(
-      (el) => el.completed || el.checked
-    ).length;
-    const todoTasks = todoData.length - completedTasks;
-
-    let todoItemsShown;
-    switch (this.state.filter) {
-      case 'Completed':
-        todoItemsShown = todoData.filter((el) => el.completed);
-        break;
-      case 'Active':
-        todoItemsShown = todoData.filter((el) => !el.completed);
-        break;
-      default:
-        todoItemsShown = todoData;
+    constructor(props) {
+        super(props);
+        this.state = {
+            todoData: [],
+            filter: 'All',
+        };
     }
 
-    return (
-      <section className='todoapp'>
-        <Header />
-        <NewTaskForm onTaskAdded={this.addTask} />
-        <section className='main'>
-          <TaskList
-            todos={todoItemsShown}
-            onDeleted={this.deleteTask}
-            onToggleCompleted={this.onToggleCompleted}
-            onToggleChecked={this.onToggleChecked}
-            onEditeTask={this.editeTask}
-            onChangeName={this.changeName}
-          />
+    deleteTask = (id) => {
+        this.setState(({ todoData }) => {
+            const index = todoData.findIndex((el) => el.id === id);
 
-          <Footer
-            todoTasks={todoTasks}
-            onfilterTask={this.changeStatefilter}
-            onClearCompleted={this.clearCompleted}
-          />
-        </section>
-      </section>
-    );
-  }
+            const newData = [
+                ...todoData.slice(0, index),
+                ...todoData.slice(index + 1),
+            ];
 
-  // eslint-disable-next-line react/sort-comp
-  deleteTask = (id) => {
-    this.setState(({ todoData }) => {
-      const index = todoData.findIndex((el) => el.id === id);
-
-      const newData = [
-        ...todoData.slice(0, index),
-        ...todoData.slice(index + 1),
-      ];
-
-      return {
-        todoData: newData,
-      };
-    });
-  };
-
-  addTask = (text) => {
-    const newTask = {
-      label: text,
-      id: this.state.todoData.length + 1,
-      completed: false,
-      edit: false,
-      date: new Date(),
+            return {
+                todoData: newData,
+            };
+        });
     };
 
-    this.setState(({ todoData }) => {
-      const newData = [...todoData, newTask];
+    addTask = (text) => {
+        const { todoData } = this.state;
+        const newTask = {
+            label: text,
+            id: todoData.length + 1,
+            completed: false,
+            edit: false,
+            date: new Date(),
+        };
 
-      return {
-        todoData: newData,
-      };
-    });
-  };
+        this.setState(() => {
+            const newData = [...todoData, newTask];
 
-  toggleProperty(arr, id, propName, propName2 = undefined) {
-    const index = arr.findIndex((el) => el.id === id);
-
-    const oldItem = arr[index];
-    const newItem = {
-      ...oldItem,
-      [propName]: !oldItem[propName],
-      [propName2]: !oldItem[propName2],
+            return {
+                todoData: newData,
+            };
+        });
     };
-    return [...arr.slice(0, index), newItem, ...arr.slice(index + 1)];
-  }
 
-  onToggleCompleted = (id) => {
-    this.setState(({ todoData }) => ({
-      todoData: this.toggleProperty(todoData, id, 'completed', 'checked'),
-    }));
-  };
+    onToggleCompleted = (id) => {
+        this.setState(() => ({
+            todoData: this.toggleProperty(id, 'completed', 'checked'),
+        }));
+    };
 
-  onToggleChecked = (id) => {
-    this.setState(({ todoData }) => ({
-      todoData: this.toggleProperty(todoData, id, 'checked'),
-    }));
-  };
+    onToggleChecked = (id) => {
+        this.setState(() => ({
+            todoData: this.toggleProperty(id, 'checked'),
+        }));
+    };
 
-  editeTask = (id) => {
-    this.setState(({ todoData }) => {
-      const newData = this.toggleProperty(todoData, id, 'edit');
-      return {
-        todoData: newData,
-      };
-    });
-  };
+    editeTask = (id) => {
+        this.setState(({ todoData }) => {
+            const newData = this.toggleProperty(todoData, id, 'edit');
+            return {
+                todoData: newData,
+            };
+        });
+    };
 
-  changeName = (id, text) => {
-    this.setState(({ todoData }) => {
-      // eslint-disable-next-line no-param-reassign
-      id = Number(id);
-      const index = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[index];
+    changeName = (id, text) => {
+        this.setState(({ todoData }) => {
+            // id = Number(id);
+            const index = todoData.findIndex((el) => el.id === id);
+            const oldItem = todoData[index];
 
-      const newItem = { ...oldItem, label: text, edit: !oldItem.edit };
+            const newItem = { ...oldItem, label: text, edit: !oldItem.edit };
 
-      const newData = [
-        ...todoData.slice(0, index),
-        newItem,
-        ...todoData.slice(index + 1),
-      ];
+            const newData = [
+                ...todoData.slice(0, index),
+                newItem,
+                ...todoData.slice(index + 1),
+            ];
 
-      return {
-        todoData: newData,
-      };
-    });
-  };
+            return {
+                todoData: newData,
+            };
+        });
+    };
 
-  changeStatefilter = (label) => {
-    this.setState(() => {
-      const newFilter = label;
-      return {
-        filter: newFilter,
-      };
-    });
-  };
+    changeStatefilter = (label) => {
+        this.setState(() => {
+            const newFilter = label;
+            return {
+                filter: newFilter,
+            };
+        });
+    };
 
-  
+    clearCompleted = () => {
+        this.setState(({ todoData }) => {
+            const activeTasks = todoData.filter((task) => !task.completed);
+            return {
+                todoData: activeTasks,
+            };
+        });
+    };
 
-  clearCompleted = () => {
-    this.setState(({ todoData }) => {
-      const tasks = todoData.filter((el) => el.completed || el.checked);
-      if (tasks.length === 0) return;
+    toggleProperty(id, propName, propName2 = undefined) {
+        const { todoData } = this.state;
+        const index = todoData.findIndex((el) => el.id === id);
+        const oldItem = todoData[index];
+        const newItem = {
+            ...oldItem,
+            [propName]: !oldItem[propName],
+            [propName2]: !oldItem[propName2],
+        };
+        return [
+            ...todoData.slice(0, index),
+            newItem,
+            ...todoData.slice(index + 1),
+        ];
+    }
 
-      const arrIndexs = [];
-      tasks.forEach((element) => {
-        arrIndexs.push(element.id);
-      });
+    render() {
+        const { todoData } = this.state;
+        const completedTasks = todoData.filter(
+            (el) => el.completed || el.checked
+        ).length;
+        const todoTasks = todoData.length - completedTasks;
 
-      let newData = [...todoData];
+        let todoItemsShown;
+        const { filter } = this.state;
+        switch (filter) {
+            case 'Completed':
+                todoItemsShown = todoData.filter((el) => el.completed);
+                break;
+            case 'Active':
+                todoItemsShown = todoData.filter((el) => !el.completed);
+                break;
+            default:
+                todoItemsShown = todoData;
+        }
 
-      arrIndexs.forEach((id) => {
-        const index = newData.findIndex((el) => el.id === id);
-        newData = [...newData.slice(0, index), ...newData.slice(index + 1)];
-      });
+        return (
+            <section className='todoapp'>
+                <Header />
+                <NewTaskForm onTaskAdded={this.addTask} />
+                <section className='main'>
+                    <TaskList
+                        todos={todoItemsShown}
+                        onDeleted={this.deleteTask}
+                        onToggleCompleted={this.onToggleCompleted}
+                        onToggleChecked={this.onToggleChecked}
+                        onEditeTask={this.editeTask}
+                        onChangeName={this.changeName}
+                    />
 
-      // eslint-disable-next-line consistent-return
-      return {
-        todoData: newData,
-      };
-    });
-  };
+                    <Footer
+                        todoTasks={todoTasks}
+                        onfilterTask={this.changeStatefilter}
+                        onClearCompleted={this.clearCompleted}
+                    />
+                </section>
+            </section>
+        );
+    }
 }

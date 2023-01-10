@@ -1,49 +1,42 @@
 import React, { Component } from 'react';
 import './NewTaskForm.css';
 
-
 export default class NewTaskForm extends Component {
-
-  state = {
-    label:''
-  };
-
-  // eslint-disable-next-line react/static-property-placement
-  static defaultProps ={
-    
+  constructor() {
+    super();
+    this.state = {
+      label: '',
+    };
   }
-
 
   onLabelChange = (e) => {
-
     this.setState({
-      label: e.target.value
-    })
-  }
-
-  onSubmit = (e) => {
- 
-    e.preventDefault();
-    this.props.onTaskAdded(this.state.label);
-    this.setState({
-      label:''
+      label: e.target.value,
     });
   };
 
-  render(){
-    return (
-      <form className="" onSubmit={this.onSubmit}> 
-        <input className="new-todo" 
-          placeholder="What needs to be done?" 
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus 
-          onChange={this.onLabelChange}
-          value={this.state.label}/>
-      </form>
-    );
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { label } = this.state;
+    const { onTaskAdded } = this.props;
+    onTaskAdded(label);
+    this.setState({
+      label: '',
+    });
   };
 
+  render() {
+    const { label } = this.state;
+
+    return (
+      <form className='' onSubmit={this.onSubmit}>
+        <input
+          className='new-todo'
+          placeholder='What needs to be done?'
+          onChange={this.onLabelChange}
+          value={label}
+        />
+      </form>
+    );
+  }
 }
-
-  
-
