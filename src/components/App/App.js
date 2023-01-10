@@ -36,6 +36,7 @@ export default class App extends Component {
             label: text,
             id: todoData.length + 1,
             completed: false,
+            checked: false,
             edit: false,
             date: new Date(),
         };
@@ -160,7 +161,8 @@ export default class App extends Component {
 
                     <Footer
                         todoTasks={todoTasks}
-                        onfilterTask={this.changeStatefilter}
+                        filter={filter}
+                        onFilterChange={this.changeStatefilter}
                         onClearCompleted={this.clearCompleted}
                     />
                 </section>

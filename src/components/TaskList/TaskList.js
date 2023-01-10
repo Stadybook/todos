@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 
 import Task from '../Task';
+
 import './TaskList.css';
 
 export default class TaskList extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             label: '',
         };
+
+        this.onLabelChange = this.onLabelChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     onLabelChange = (e) => {

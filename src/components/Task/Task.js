@@ -26,6 +26,7 @@ function Task({
                 className='toggle'
                 type='checkbox'
                 onChange={onToggleCompleted}
+                checked={checked}
             />
             <label htmlFor={id}>
                 <span className={classNames}>{label}</span>
