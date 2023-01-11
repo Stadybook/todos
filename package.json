@@ -52,16 +52,17 @@
         "eslint-plugin-react": "^7.28.0",
         "eslint-plugin-react-hooks": "^4.3.0",
         "husky": "^8.0.3",
-        "prettier": "^2.7.1"
-    },
-    "husky": {
-        "pre-commit": "lint-staged"
+        "lint-staged": "^13.1.0",
+        "prettier": "^2.8.2"
     },
     "lint-staged": {
         "*.js": [
-            "npm run lint:fix",
-            "git add"
+          "npm run lint:fix",
+          "git add"
         ]
+      },  
+    "husky": {
+        "pre-commit": "lint-staged"
     },
     "jest": {
         "transformIgnorePatterns": [
