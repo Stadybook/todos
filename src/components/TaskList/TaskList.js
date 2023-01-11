@@ -27,6 +27,9 @@ export default class TaskList extends Component {
         const { label } = this.state;
         e.preventDefault();
         onChangeName(e.target.id, label);
+        this.setState({
+            label: '',
+        });
     };
 
     render() {
