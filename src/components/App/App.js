@@ -56,15 +56,9 @@ export default class App extends Component {
         }));
     };
 
-    onToggleChecked = (id) => {
-        this.setState(() => ({
-            todoData: this.toggleProperty(id, 'checked'),
-        }));
-    };
-
     editeTask = (id) => {
-        this.setState(({ todoData }) => {
-            const newData = this.toggleProperty(todoData, id, 'edit');
+        this.setState(() => {
+            const newData = this.toggleProperty(id, 'edit');
             return {
                 todoData: newData,
             };
@@ -73,8 +67,8 @@ export default class App extends Component {
 
     changeName = (id, text) => {
         this.setState(({ todoData }) => {
-            // id = Number(id);
-            const index = todoData.findIndex((el) => el.id === id);
+            const ids = Number(id);
+            const index = todoData.findIndex((el) => el.id === ids);
             const oldItem = todoData[index];
 
             const newItem = { ...oldItem, label: text, edit: !oldItem.edit };
@@ -109,7 +103,7 @@ export default class App extends Component {
         });
     };
 
-    toggleProperty(id, propName, propName2 = undefined) {
+    toggleProperty(id, propName, propName2) {
         const { todoData } = this.state;
         const index = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[index];
@@ -154,11 +148,9 @@ export default class App extends Component {
                         todos={todoItemsShown}
                         onDeleted={this.deleteTask}
                         onToggleCompleted={this.onToggleCompleted}
-                        onToggleChecked={this.onToggleChecked}
                         onEditeTask={this.editeTask}
                         onChangeName={this.changeName}
                     />
-
                     <Footer
                         todoTasks={todoTasks}
                         filter={filter}

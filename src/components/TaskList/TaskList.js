@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 import React, { Component } from 'react';
 
 import Task from '../Task';
@@ -29,13 +30,7 @@ export default class TaskList extends Component {
     };
 
     render() {
-        const {
-            todos,
-            onDeleted,
-            onToggleCompleted,
-            onToggleChecked,
-            onEditeTask,
-        } = this.props;
+        const { todos, onDeleted, onToggleCompleted, onEditeTask } = this.props;
 
         const elements = todos.map((item) => {
             const { id } = item;
@@ -47,7 +42,6 @@ export default class TaskList extends Component {
                             onDeleted={() => onDeleted(id)}
                             onToggleCompleted={() => onToggleCompleted(id)}
                             onEditeTask={() => onEditeTask(id)}
-                            onToggleChecked={() => onToggleChecked(id)}
                         />
                     </li>
                 );
