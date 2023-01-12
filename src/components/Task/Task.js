@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 import './Task.css';
 
@@ -11,6 +12,14 @@ function Task({
     onEditeTask,
     completed,
 }) {
+    Task.propTypes = {
+        label: PropTypes.string.isRequired,
+        completed: PropTypes.bool.isRequired,
+        id: PropTypes.number.isRequired,
+        onToggleCompleted: PropTypes.func.isRequired,
+        onEditeTask: PropTypes.func.isRequired,
+        onDeleted: PropTypes.func.isRequired,
+    };
     let classNames = 'description';
 
     if (completed || checked) {

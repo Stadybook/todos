@@ -4,6 +4,15 @@ import TasksFilter from '../TasksFilter/TasksFilter';
 import './Footer.css';
 
 function Footer({ todoTasks, filter, onClearCompleted, onFilterChange }) {
+    Footer.defaultProps = {
+        filter: 'All',
+    };
+
+    Footer.propTypes = {
+        filter: PropTypes.oneOf(['All', 'Active', 'Completed']),
+        onFilterChange: PropTypes.func.isRequired,
+        onClearCompleted: PropTypes.func.isRequired,
+    };
     return (
         <footer className='footer'>
             <span className='todo-count'>{todoTasks} items left</span>
@@ -21,14 +30,5 @@ function Footer({ todoTasks, filter, onClearCompleted, onFilterChange }) {
         </footer>
     );
 }
-Footer.defaultProps = {
-    filter: 'All',
-};
-
-Footer.propTypes = {
-    filter: PropTypes.oneOf(['All', 'Active', 'Completed']),
-    onFilterChange: PropTypes.func.isRequired,
-    onClearCompleted: PropTypes.func.isRequired,
-};
 
 export default Footer;

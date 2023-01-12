@@ -1,4 +1,4 @@
-/* eslint-disable spaced-comment */
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import Task from '../Task';
@@ -71,3 +71,9 @@ export default class TaskList extends Component {
         return <ul className='todo-list'>{elements}</ul>;
     }
 }
+
+TaskList.propTypes = {
+    onToggleCompleted: PropTypes.func.isRequired,
+    onEditeTask: PropTypes.func.isRequired,
+    onDeleted: PropTypes.func.isRequired,
+};

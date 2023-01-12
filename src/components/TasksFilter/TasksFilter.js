@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import './TasksFilter.css';
 
@@ -19,7 +20,7 @@ export default class TasksFilter extends Component {
         const { onFilterChange } = this.props;
         const classSelected = 'selected';
 
-        const buttons = document.querySelectorAll('.filters button');
+        const buttons = document.querySelectorAll('.footer button');
 
         buttons.forEach((button) => {
             if (button.textContent === this.filter) {
@@ -59,3 +60,7 @@ export default class TasksFilter extends Component {
         );
     }
 }
+
+TasksFilter.propTypes = {
+    onFilterChange: PropTypes.func.isRequired,
+};
