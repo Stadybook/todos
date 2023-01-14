@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import Header from '../Header';
 import TaskList from '../TaskList';
@@ -34,16 +35,13 @@ export default class App extends Component {
         const { todoData } = this.state;
         const newTask = {
             label: text,
-            id: todoData.length + 1,
+            id: uuidv4(),
             completed: false,
             checked: false,
-            edit: false,
             date: new Date(),
         };
-
         this.setState(() => {
             const newData = [...todoData, newTask];
-
             return {
                 todoData: newData,
             };
@@ -52,26 +50,16 @@ export default class App extends Component {
 
     onToggleCompleted = (id) => {
         this.setState(() => ({
-            todoData: this.toggleProperty(id, 'completed', 'checked'),
+            todoData: this.toggleProperty(id, 'completed'),
         }));
-    };
-
-    editeTask = (id) => {
-        this.setState(() => {
-            const newData = this.toggleProperty(id, 'edit');
-            return {
-                todoData: newData,
-            };
-        });
     };
 
     changeName = (id, text) => {
         this.setState(({ todoData }) => {
-            const ids = Number(id);
-            const index = todoData.findIndex((el) => el.id === ids);
+            const index = todoData.findIndex((el) => el.id === id);
             const oldItem = todoData[index];
 
-            const newItem = { ...oldItem, label: text, edit: !oldItem.edit };
+            const newItem = { ...oldItem, label: text };
 
             const newData = [
                 ...todoData.slice(0, index),
@@ -103,14 +91,13 @@ export default class App extends Component {
         });
     };
 
-    toggleProperty(id, propName, propName2) {
+    toggleProperty(id, propName) {
         const { todoData } = this.state;
         const index = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[index];
         const newItem = {
             ...oldItem,
             [propName]: !oldItem[propName],
-            [propName2]: !oldItem[propName2],
         };
         return [
             ...todoData.slice(0, index),
@@ -148,7 +135,6 @@ export default class App extends Component {
                         todos={todoItemsShown}
                         onDeleted={this.deleteTask}
                         onToggleCompleted={this.onToggleCompleted}
-                        onEditeTask={this.editeTask}
                         onChangeName={this.changeName}
                     />
                     <Footer

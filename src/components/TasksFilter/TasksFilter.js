@@ -7,13 +7,11 @@ export default class TasksFilter extends Component {
         super();
         this.state = {
             btns: [
-                { key: '1', name: 'All' },
-                { key: '2', name: 'Active' },
-                { key: '3', name: 'Completed' },
+                { name: 'All', clazz: 'selected' },
+                { name: 'Active', clazz: '' },
+                { name: 'Completed', clazz: '' },
             ],
         };
-
-        this.onClick = this.onClick.bind(this);
     }
 
     onClick = (event) => {
@@ -45,11 +43,12 @@ export default class TasksFilter extends Component {
         return (
             <ul className='filters'>
                 {btns.map((el) => (
-                    <li key={el.key}>
+                    <li key={el.name}>
                         <button
+                            className={el.clazz}
                             type='button'
                             onClick={this.onClick}
-                            btn={el.key}
+                            btn={el.name}
                             label={el.name}
                         >
                             {el.name}

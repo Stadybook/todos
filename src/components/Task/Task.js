@@ -7,22 +7,19 @@ function Task({
     date,
     onDeleted,
     id,
-    checked,
     onToggleCompleted,
-    onEditeTask,
     completed,
+    handlerClick,
 }) {
     Task.propTypes = {
+        id: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
-        completed: PropTypes.bool.isRequired,
-        id: PropTypes.number.isRequired,
         onToggleCompleted: PropTypes.func.isRequired,
-        onEditeTask: PropTypes.func.isRequired,
         onDeleted: PropTypes.func.isRequired,
     };
     let classNames = 'description';
 
-    if (completed || checked) {
+    if (completed) {
         classNames += ' completed';
     }
 
@@ -35,7 +32,7 @@ function Task({
                 className='toggle'
                 type='checkbox'
                 onChange={onToggleCompleted}
-                checked={checked}
+                checked={completed}
             />
             <label htmlFor={id}>
                 <span className={classNames}>{label}</span>
@@ -44,7 +41,7 @@ function Task({
             <button
                 type='button'
                 className='icon icon-edit float-right'
-                onClick={onEditeTask}
+                onClick={handlerClick}
             />
             <button
                 type='button'

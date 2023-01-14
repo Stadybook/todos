@@ -11,9 +11,16 @@ export default class NewTaskForm extends Component {
     }
 
     onLabelChange = (e) => {
-        this.setState({
-            label: e.target.value,
-        });
+        if (e.target.value.length === 1) {
+            const label = e.target.value.trim().replace(/ +/g, ' ');
+            this.setState({
+                label,
+            });
+        } else {
+            this.setState({
+                label: e.target.value,
+            });
+        }
     };
 
     onSubmit = (e) => {

@@ -11,6 +11,7 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-scripts": "5.0.1",
+        "uuid": "^9.0.0",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
@@ -57,10 +58,10 @@
     },
     "lint-staged": {
         "*.js": [
-          "npm run lint:fix",
-          "git add"
+            "npm run lint:fix",
+            "git add"
         ]
-      },  
+    },
     "husky": {
         "pre-commit": "lint-staged"
     },
