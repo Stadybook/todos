@@ -108,9 +108,7 @@ export default class App extends Component {
 
     render() {
         const { todoData } = this.state;
-        const completedTasks = todoData.filter(
-            (el) => el.completed || el.checked
-        ).length;
+        const completedTasks = todoData.filter((el) => el.completed).length;
         const todoTasks = todoData.length - completedTasks;
 
         let todoItemsShown;

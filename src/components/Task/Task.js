@@ -6,8 +6,9 @@ import './Task.css';
 export default class Task extends Component {
     constructor(props) {
         super(props);
+        const { label } = this.props;
         this.state = {
-            labelState: '',
+            labelState: label,
             edit: false,
         };
     }
@@ -24,7 +25,6 @@ export default class Task extends Component {
         e.preventDefault();
         onChangeName(e.target.id, labelState);
         this.setState({
-            labelState: '',
             edit: false,
         });
     };
@@ -70,14 +70,12 @@ export default class Task extends Component {
                         onChange={onToggleCompleted}
                         checked={completed}
                     />
-                    <label htmlFor={id}>
-                        <span
-                            className={classNames}
-                            onClick={onToggleCompleted}
-                            aria-hidden='true'
-                        >
-                            {label}
-                        </span>
+                    <label
+                        htmlFor={id}
+                        onClick={onToggleCompleted}
+                        aria-hidden='true'
+                    >
+                        <span className={classNames}>{label}</span>
                         <span className='created'>created {result}</span>
                     </label>
                     <button
