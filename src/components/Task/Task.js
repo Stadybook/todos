@@ -39,58 +39,48 @@ export default class Task extends Component {
     render() {
         const { label, date, onDeleted, id, onToggleCompleted, completed } =
             this.props;
-        let classNames = 'description';
-
-        if (completed) {
-            classNames += ' completed';
-        }
-
-        const { labelState } = this.state;
-        const { edit } = this.state;
-        const clazz = edit ? 'editing' : '';
 
         const result = formatDistanceToNow(date, { includeSeconds: true });
-
-        return (
-            <li className={clazz}>
-                <form className='' onSubmit={this.onSubmit} id={id}>
-                    <input
-                        type='text'
-                        className='edit'
-                        placeholder='Editing task'
-                        onChange={this.onLabelChange}
-                        value={labelState}
-                    />
-                </form>
-                <div className='view'>
-                    <input
-                        id={id.toString()}
-                        className='toggle'
-                        type='checkbox'
-                        onChange={onToggleCompleted}
-                        checked={completed}
-                    />
-                    <label
-                        htmlFor={id}
-                        onClick={onToggleCompleted}
-                        aria-hidden='true'
-                    >
-                        <span className={classNames}>{label}</span>
-                        <span className='created'>created {result}</span>
-                    </label>
-                    <button
-                        type='button'
-                        className='icon icon-edit float-right'
-                        onClick={this.handlerClick}
-                    />
-                    <button
-                        type='button'
-                        className='icon icon-destroy float-right'
-                        onClick={onDeleted}
-                    />
-                </div>
-            </li>
+        const { labelState } = this.state;
+        const { edit } = this.state;
+        const classNames = completed ? 'description completed' : 'description';
+        const content = edit ? (
+            <form className='' onSubmit={this.onSubmit} id={id}>
+                <input
+                    type='text'
+                    className='edit'
+                    placeholder='Editing task'
+                    onChange={this.onLabelChange}
+                    value={labelState}
+                />
+            </form>
+        ) : (
+            <div className='view'>
+                <input
+                    id={id.toString()}
+                    className='toggle'
+                    type='checkbox'
+                    onChange={onToggleCompleted}
+                    checked={completed}
+                />
+                <label htmlFor={id}>
+                    <span className={classNames}>{label}</span>
+                    <span className='created'>created {result}</span>
+                </label>
+                <button
+                    type='button'
+                    className='icon icon-edit float-right'
+                    onClick={this.handlerClick}
+                />
+                <button
+                    type='button'
+                    className='icon icon-destroy float-right'
+                    onClick={onDeleted}
+                />
+            </div>
         );
+
+        return <li className={edit ? 'editing' : ''}>{content}</li>;
     }
 }
 

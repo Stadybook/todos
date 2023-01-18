@@ -37,7 +37,6 @@ export default class App extends Component {
             label: text,
             id: uuidv4(),
             completed: false,
-            checked: false,
             date: new Date(),
         };
         this.setState(() => {
