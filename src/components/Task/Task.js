@@ -65,6 +65,11 @@ export default class Task extends Component {
                 />
                 <label htmlFor={id}>
                     <span className={classNames}>{label}</span>
+                    <span className='time'>
+                        <button className='icon icon-play' type='button' />
+                        <button className='icon icon-pause' type='button' />
+                        12:25
+                    </span>
                     <span className='created'>created {result}</span>
                 </label>
                 <button

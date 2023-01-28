@@ -52,3 +52,6 @@
 	width: 15%;
 	padding-left: 16px;
 }
+.hidden{
+    display: none;
+}

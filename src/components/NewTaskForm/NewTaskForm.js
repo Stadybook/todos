@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import './NewTaskForm.css';
@@ -36,12 +35,15 @@ export default class NewTaskForm extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        this.setState({
+            label: '',
+            seconds: '',
+            minutes: '',
+        });
+
         const { label } = this.state;
         const { onTaskAdded } = this.props;
         onTaskAdded(label);
-        this.setState({
-            label: '',
-        });
     };
 
     render() {
@@ -51,6 +53,7 @@ export default class NewTaskForm extends Component {
             <form className='new-todo-form' onSubmit={this.onSubmit}>
                 <input
                     className='new-todo'
+                    name='label'
                     required
                     placeholder='What needs to be done?'
                     onChange={this.onLabelChange}
@@ -58,7 +61,6 @@ export default class NewTaskForm extends Component {
                 />
                 <input
                     className='new-todo-form__timer'
-                    required
                     name='minutes'
                     placeholder='Min'
                     onChange={this.onSetTimer}
@@ -66,12 +68,12 @@ export default class NewTaskForm extends Component {
                 />
                 <input
                     className='new-todo-form__timer'
-                    required
                     name='seconds'
                     placeholder='Sec'
                     onChange={this.onSetTimer}
                     value={seconds}
                 />
+                <input className='hidden' type='submit' />
             </form>
         );
     }

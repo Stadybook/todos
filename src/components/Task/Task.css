@@ -50,7 +50,7 @@
     padding: 15px 85px 15px 60px;
 }
 
-.todo-list li label .created {
+.todo-list li label .created , .time {
     font-size: 13px;
     color: gray;
 }
@@ -133,3 +133,30 @@
 .todo-list li.editing .view {
     display: none;
 }
+
+.todo-list li .icon-pause,
+.todo-list li .icon-play {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+    top:-11px;
+}
+.time{
+    position: relative;
+}
+.todo-list li .icon-pause{
+    right: 40px;
+}
+.todo-list li .icon-play{
+    right: 60px;
+}
+
+
+.icon-pause:after {
+	content: '⏸';
+}
+
+.icon-play:after {
+	content: '▶';
+}
+
