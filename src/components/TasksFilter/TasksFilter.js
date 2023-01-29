@@ -3,6 +3,13 @@ import React, { Component } from 'react';
 import './TasksFilter.css';
 
 export default class TasksFilter extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            btns: [{ name: 'All' }, { name: 'Active' }, { name: 'Completed' }],
+        };
+    }
+
     onClick = (event) => {
         const { onFilterChange } = this.props;
         const classSelected = 'selected';
@@ -28,41 +35,23 @@ export default class TasksFilter extends Component {
     };
 
     render() {
+        const { btns } = this.state;
+        const { filter } = this.props;
         return (
             <ul className='filters'>
-                <li key='All'>
-                    <button
-                        className='selected'
-                        type='button'
-                        onClick={this.onClick}
-                        btn='All'
-                        label='All'
-                    >
-                        All
-                    </button>
-                </li>
-                <li key='Active'>
-                    <button
-                        className=''
-                        type='button'
-                        onClick={this.onClick}
-                        btn='Active'
-                        label='Active'
-                    >
-                        Active
-                    </button>
-                </li>
-                <li key='Completed'>
-                    <button
-                        className=''
-                        type='button'
-                        onClick={this.onClick}
-                        btn='Completed'
-                        label='Completed'
-                    >
-                        Completed
-                    </button>
-                </li>
+                {btns.map((el) => (
+                    <li key={el.name}>
+                        <button
+                            className={filter === el.name ? 'active' : ' '}
+                            type='button'
+                            onClick={this.onClick}
+                            btn={el.name}
+                            label={el.name}
+                        >
+                            {el.name}
+                        </button>
+                    </li>
+                ))}
             </ul>
         );
     }
