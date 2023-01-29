@@ -31,10 +31,12 @@ export default class App extends Component {
         });
     };
 
-    addTask = (text) => {
+    addTask = (text, minutes, seconds) => {
         const { todoData } = this.state;
         const newTask = {
             label: text,
+            minutes,
+            seconds,
             id: uuidv4(),
             completed: false,
             date: new Date(),
@@ -145,3 +147,8 @@ export default class App extends Component {
         );
     }
 }
+
+App.defaultProps = {
+    minutes: 0,
+    seconds: 0,
+};
