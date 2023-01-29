@@ -15,8 +15,8 @@ export default class Task extends Component {
         };
     }
 
-    formatTime = (sec) => {
-        return [Math.floor((sec / 60) % 60), Math.floor(sec % 60)]
+    formatting = (seconds) => {
+        return [Math.floor((seconds / 60) % 60), Math.floor(seconds % 60)]
             .join(':')
             .replace(/\b(\d)\b/g, '0$1');
     };
@@ -47,6 +47,7 @@ export default class Task extends Component {
     render() {
         const {
             label,
+            timer,
             deadline,
             date,
             onDeleted,
@@ -56,6 +57,20 @@ export default class Task extends Component {
             onToggleCompleted,
             completed,
         } = this.props;
+        const btn =
+            timer === null || timer === undefined ? (
+                <button
+                    className='icon icon-play'
+                    type='button'
+                    onClick={onStart}
+                />
+            ) : (
+                <button
+                    className='icon icon-pause'
+                    type='button'
+                    onClick={onStop}
+                />
+            );
         const result = formatDistanceToNow(date, { includeSeconds: true });
         const { labelState } = this.state;
         const { edit } = this.state;
@@ -82,17 +97,8 @@ export default class Task extends Component {
                 <label htmlFor={id}>
                     <span className={classNames}>{label}</span>
                     <span className='time'>
-                        <button
-                            className='icon icon-play'
-                            type='button'
-                            onClick={onStart}
-                        />
-                        <button
-                            className='icon icon-pause'
-                            type='button'
-                            onClick={onStop}
-                        />
-                        {this.formatTime(deadline)}
+                        {btn}
+                        {this.formatting(deadline)}
                     </span>
                     <span className='created'>created {result}</span>
                 </label>

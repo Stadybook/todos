@@ -118,6 +118,10 @@ export default class App extends Component {
             const oldItem = todoData[index];
 
             const time = oldItem.deadline - 1;
+            if (time < 0) {
+                clearInterval(counter);
+                return;
+            }
             const newItem = {
                 ...oldItem,
                 timer: counter,
