@@ -1,3 +1,3 @@
-Todos
+Todos with timer
 
-https://todos-nine-jade.vercel.app/
+
