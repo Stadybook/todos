@@ -42,8 +42,9 @@ export default class NewTaskForm extends Component {
         });
 
         const { label, minutes, seconds } = this.state;
+        const sec = Number(minutes) * 60 + Number(seconds);
         const { onTaskAdded } = this.props;
-        onTaskAdded(label, Number(minutes), Number(seconds));
+        onTaskAdded(label, sec);
     };
 
     render() {

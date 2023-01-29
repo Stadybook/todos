@@ -1,5 +1,5 @@
-/* eslint-disable react/no-access-state-in-setstate */
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable class-methods-use-this */
+
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { formatDistanceToNow } from 'date-fns';
@@ -12,34 +12,13 @@ export default class Task extends Component {
         this.state = {
             labelState: label,
             edit: false,
-            time: null,
-            timer: null,
         };
     }
 
-    onStop = () => {
-        clearInterval(this.state.timer);
-    };
-
-    onStart = () => {
-        if (this.state.time === null) {
-            const { minutes, seconds } = this.props;
-            const deadline = minutes * 60 + seconds;
-            this.setState({
-                time: deadline,
-            });
-        }
-        const timer = setInterval(() => {
-            const time = this.state.time - 1;
-            if (time <= 0) {
-                clearInterval(timer);
-                return;
-            }
-            this.setState({
-                time,
-                timer,
-            });
-        }, 1000);
+    formatTime = (sec) => {
+        return [Math.floor((sec / 60) % 60), Math.floor(sec % 60)]
+            .join(':')
+            .replace(/\b(\d)\b/g, '0$1');
     };
 
     onLabelChange = (e) => {
@@ -68,18 +47,15 @@ export default class Task extends Component {
     render() {
         const {
             label,
-            minutes,
-            seconds,
+            deadline,
             date,
             onDeleted,
             id,
+            onStart,
+            onStop,
             onToggleCompleted,
             completed,
         } = this.props;
-        const timeShow =
-            this.state.timer === null
-                ? `${minutes} : ${seconds}`
-                : `${this.state.time}`;
         const result = formatDistanceToNow(date, { includeSeconds: true });
         const { labelState } = this.state;
         const { edit } = this.state;
@@ -109,14 +85,14 @@ export default class Task extends Component {
                         <button
                             className='icon icon-play'
                             type='button'
-                            onClick={this.onStart}
+                            onClick={onStart}
                         />
                         <button
                             className='icon icon-pause'
                             type='button'
-                            onClick={this.onStop}
+                            onClick={onStop}
                         />
-                        {timeShow}
+                        {this.formatTime(deadline)}
                     </span>
                     <span className='created'>created {result}</span>
                 </label>

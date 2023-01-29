@@ -31,15 +31,15 @@ export default class App extends Component {
         });
     };
 
-    addTask = (text, minutes, seconds) => {
+    addTask = (text, sec) => {
         const { todoData } = this.state;
         const newTask = {
             label: text,
-            minutes,
-            seconds,
+            deadline: sec,
             id: uuidv4(),
             completed: false,
             date: new Date(),
+            timer: null,
         };
         this.setState(() => {
             const newData = [...todoData, newTask];
@@ -92,6 +92,48 @@ export default class App extends Component {
         });
     };
 
+    onStop = (id) => {
+        const { todoData } = this.state;
+        const index = todoData.findIndex((el) => el.id === id);
+        const oldItem = todoData[index];
+        const clean = clearInterval(oldItem.timer);
+        const newItem = {
+            ...oldItem,
+            timer: clean,
+        };
+        const newData = [
+            ...todoData.slice(0, index),
+            newItem,
+            ...todoData.slice(index + 1),
+        ];
+        this.setState(() => ({
+            todoData: newData,
+        }));
+    };
+
+    onStart = (id) => {
+        const counter = setInterval(() => {
+            const { todoData } = this.state;
+            const index = todoData.findIndex((el) => el.id === id);
+            const oldItem = todoData[index];
+
+            const time = oldItem.deadline - 1;
+            const newItem = {
+                ...oldItem,
+                timer: counter,
+                deadline: time,
+            };
+            const newData = [
+                ...todoData.slice(0, index),
+                newItem,
+                ...todoData.slice(index + 1),
+            ];
+            this.setState(() => ({
+                todoData: newData,
+            }));
+        }, 1000);
+    };
+
     toggleProperty(id, propName) {
         const { todoData } = this.state;
         const index = todoData.findIndex((el) => el.id === id);
@@ -135,6 +177,8 @@ export default class App extends Component {
                         onDeleted={this.deleteTask}
                         onToggleCompleted={this.onToggleCompleted}
                         onChangeName={this.changeName}
+                        onStart={this.onStart}
+                        onStop={this.onStop}
                     />
                     <Footer
                         todoTasks={todoTasks}
