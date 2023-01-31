@@ -3,7 +3,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { formatDistanceToNow } from 'date-fns';
+
 import './Task.css';
+import Timer from '../Timer';
 
 export default class Task extends Component {
     constructor(props) {
@@ -14,12 +16,6 @@ export default class Task extends Component {
             edit: false,
         };
     }
-
-    formatting = (seconds) => {
-        return [Math.floor((seconds / 60) % 60), Math.floor(seconds % 60)]
-            .join(':')
-            .replace(/\b(\d)\b/g, '0$1');
-    };
 
     onLabelChange = (e) => {
         this.setState({
@@ -52,25 +48,12 @@ export default class Task extends Component {
             date,
             onDeleted,
             id,
-            onStart,
             onStop,
+            onStart,
             onToggleCompleted,
             completed,
         } = this.props;
-        const btn =
-            timer === null || timer === undefined ? (
-                <button
-                    className='icon icon-play'
-                    type='button'
-                    onClick={onStart}
-                />
-            ) : (
-                <button
-                    className='icon icon-pause'
-                    type='button'
-                    onClick={onStop}
-                />
-            );
+
         const result = formatDistanceToNow(date, { includeSeconds: true });
         const { labelState } = this.state;
         const { edit } = this.state;
@@ -96,10 +79,12 @@ export default class Task extends Component {
                 />
                 <label htmlFor={id}>
                     <span className={classNames}>{label}</span>
-                    <span className='time'>
-                        {btn}
-                        {this.formatting(deadline)}
-                    </span>
+                    <Timer
+                        timer={timer}
+                        onStart={onStart}
+                        onStop={onStop}
+                        deadline={deadline}
+                    />
                     <span className='created'>created {result}</span>
                 </label>
                 <button

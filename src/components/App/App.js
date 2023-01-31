@@ -116,7 +116,9 @@ export default class App extends Component {
             const { todoData } = this.state;
             const index = todoData.findIndex((el) => el.id === id);
             const oldItem = todoData[index];
-
+            if (oldItem.completed) {
+                return;
+            }
             const time = oldItem.deadline - 1;
             if (time < 0) {
                 clearInterval(counter);

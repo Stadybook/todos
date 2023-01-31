@@ -42,7 +42,7 @@ export default class TasksFilter extends Component {
                 {btns.map((el) => (
                     <li key={el.name}>
                         <button
-                            className={filter === el.name ? 'active' : ' '}
+                            className={filter === el.name ? 'selected' : ' '}
                             type='button'
                             onClick={this.onClick}
                             btn={el.name}
