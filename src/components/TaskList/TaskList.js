@@ -7,8 +7,7 @@ import './TaskList.css';
 export default function TaskList({
     todos,
     onDeleted,
-    onStart,
-    onStop,
+    changeDeadline,
     onToggleCompleted,
     onChangeName,
 }) {
@@ -27,8 +26,9 @@ export default function TaskList({
                 onDeleted={() => onDeleted(id)}
                 onToggleCompleted={() => onToggleCompleted(id)}
                 onChangeName={(ids, text) => onChangeName(ids, text)}
-                onStart={() => onStart(id)}
-                onStop={() => onStop(id)}
+                changeDeadline={(newDeadline) =>
+                    changeDeadline(id, newDeadline)
+                }
             />
         );
     });

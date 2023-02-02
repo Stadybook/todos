@@ -39,7 +39,6 @@ export default class App extends Component {
             id: uuidv4(),
             completed: false,
             date: new Date(),
-            timer: null,
         };
         this.setState(() => {
             const newData = [...todoData, newTask];
@@ -92,14 +91,14 @@ export default class App extends Component {
         });
     };
 
-    onStop = (id) => {
+    changeDeadline = (id, newDeadline) => {
         const { todoData } = this.state;
         const index = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[index];
-        const clean = clearInterval(oldItem.timer);
+
         const newItem = {
             ...oldItem,
-            timer: clean,
+            deadline: newDeadline,
         };
         const newData = [
             ...todoData.slice(0, index),
@@ -109,35 +108,6 @@ export default class App extends Component {
         this.setState(() => ({
             todoData: newData,
         }));
-    };
-
-    onStart = (id) => {
-        const counter = setInterval(() => {
-            const { todoData } = this.state;
-            const index = todoData.findIndex((el) => el.id === id);
-            const oldItem = todoData[index];
-            if (oldItem.completed) {
-                return;
-            }
-            const time = oldItem.deadline - 1;
-            if (time < 0) {
-                clearInterval(counter);
-                return;
-            }
-            const newItem = {
-                ...oldItem,
-                timer: counter,
-                deadline: time,
-            };
-            const newData = [
-                ...todoData.slice(0, index),
-                newItem,
-                ...todoData.slice(index + 1),
-            ];
-            this.setState(() => ({
-                todoData: newData,
-            }));
-        }, 1000);
     };
 
     toggleProperty(id, propName) {
@@ -183,8 +153,7 @@ export default class App extends Component {
                         onDeleted={this.deleteTask}
                         onToggleCompleted={this.onToggleCompleted}
                         onChangeName={this.changeName}
-                        onStart={this.onStart}
-                        onStop={this.onStop}
+                        changeDeadline={this.changeDeadline}
                     />
                     <Footer
                         todoTasks={todoTasks}

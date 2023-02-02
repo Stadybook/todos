@@ -43,13 +43,11 @@ export default class Task extends Component {
     render() {
         const {
             label,
-            timer,
             deadline,
             date,
             onDeleted,
             id,
-            onStop,
-            onStart,
+            changeDeadline,
             onToggleCompleted,
             completed,
         } = this.props;
@@ -80,10 +78,9 @@ export default class Task extends Component {
                 <label htmlFor={id}>
                     <span className={classNames}>{label}</span>
                     <Timer
-                        timer={timer}
-                        onStart={onStart}
-                        onStop={onStop}
+                        changeDeadline={changeDeadline}
                         deadline={deadline}
+                        completed={completed}
                     />
                     <span className='created'>created {result}</span>
                 </label>
