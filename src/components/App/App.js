@@ -24,7 +24,6 @@ export default class App extends Component {
                 ...todoData.slice(0, index),
                 ...todoData.slice(index + 1),
             ];
-
             return {
                 todoData: newData,
             };
@@ -168,6 +167,5 @@ export default class App extends Component {
 }
 
 App.defaultProps = {
-    minutes: 0,
-    seconds: 0,
+    sec: 0,
 };

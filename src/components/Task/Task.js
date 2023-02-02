@@ -81,6 +81,7 @@ export default class Task extends Component {
                         changeDeadline={changeDeadline}
                         deadline={deadline}
                         completed={completed}
+                        id={id}
                     />
                     <span className='created'>created {result}</span>
                 </label>

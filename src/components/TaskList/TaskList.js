@@ -18,7 +18,6 @@ export default function TaskList({
     };
     const elements = todos.map((item) => {
         const { id } = item;
-
         return (
             <Task
                 {...item}

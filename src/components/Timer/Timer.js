@@ -1,14 +1,8 @@
-/* eslint-disable react/no-access-state-in-setstate */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable class-methods-use-this */
+
 import React, { Component } from 'react';
-import {
-    format,
-    intervalToDuration,
-    formatDuration,
-    formatDistanceToNow,
-} from 'date-fns';
+import { intervalToDuration } from 'date-fns';
 import './Timer.css';
 
 export default class Timer extends Component {
@@ -18,6 +12,34 @@ export default class Timer extends Component {
             timer: null,
             time: this.props.deadline,
         };
+    }
+
+    componentDidMount() {
+        const { timer, time } = this.state;
+        if (timer === null && typeof time === 'object') {
+            if (typeof time === 'object') {
+                const duration = intervalToDuration({
+                    start: new Date(),
+                    end: time,
+                });
+                this.setState(
+                    {
+                        time: duration.minutes * 60 + duration.seconds,
+                    },
+                    () => this.onStart()
+                );
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        const { changeDeadline } = this.props;
+        const { timer, time } = this.state;
+        if (timer !== null) {
+            const newTime = new Date();
+            newTime.setSeconds(newTime.getSeconds() + time);
+            changeDeadline(newTime);
+        }
     }
 
     formatting = (seconds) => {
@@ -42,7 +64,9 @@ export default class Timer extends Component {
         const counter = setInterval(() => {
             const { completed } = this.props;
             const { time } = this.state;
+
             if (completed) {
+                clearInterval(counter);
                 return;
             }
             const newTime = time - 1;
@@ -58,7 +82,6 @@ export default class Timer extends Component {
     };
 
     render() {
-        const { deadline } = this.props;
         const { timer, time } = this.state;
         const btn =
             timer === null || timer === undefined ? (
