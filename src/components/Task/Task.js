@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { formatDistanceToNow } from 'date-fns';

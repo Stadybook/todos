@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -32,9 +33,10 @@ export default class App extends Component {
 
     addTask = (text, sec) => {
         const { todoData } = this.state;
+        const time = Number.isNaN(sec) ? 0 : Number(sec);
         const newTask = {
             label: text,
-            deadline: sec,
+            deadline: time,
             id: uuidv4(),
             completed: false,
             date: new Date(),
