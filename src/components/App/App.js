@@ -1,5 +1,4 @@
-/* eslint-disable class-methods-use-this */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Header from '../Header';
@@ -8,31 +7,11 @@ import NewTaskForm from '../NewTaskForm';
 import Footer from '../Footer';
 import './App.css';
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            todoData: [],
-            filter: 'All',
-        };
-    }
+export default function App() {
+    const [todoData, changeTodoData] = useState([]);
+    const [filter, changeFilter] = useState('All');
 
-    deleteTask = (id) => {
-        this.setState(({ todoData }) => {
-            const index = todoData.findIndex((el) => el.id === id);
-
-            const newData = [
-                ...todoData.slice(0, index),
-                ...todoData.slice(index + 1),
-            ];
-            return {
-                todoData: newData,
-            };
-        });
-    };
-
-    addTask = (text, sec) => {
-        const { todoData } = this.state;
+    const addTask = (text, sec) => {
         const time = Number.isNaN(sec) ? 0 : Number(sec);
         const newTask = {
             label: text,
@@ -41,59 +20,40 @@ export default class App extends Component {
             completed: false,
             date: new Date(),
         };
-        this.setState(() => {
-            const newData = [...todoData, newTask];
-            return {
-                todoData: newData,
-            };
-        });
+        changeTodoData((todos) => [...todos, newTask]);
     };
 
-    onToggleCompleted = (id) => {
-        this.setState(() => ({
-            todoData: this.toggleProperty(id, 'completed'),
-        }));
+    const deleteTask = (id) => {
+        const index = todoData.findIndex((el) => el.id === id);
+
+        const newData = [
+            ...todoData.slice(0, index),
+            ...todoData.slice(index + 1),
+        ];
+        changeTodoData(newData);
     };
 
-    changeName = (id, text) => {
-        this.setState(({ todoData }) => {
-            const index = todoData.findIndex((el) => el.id === id);
-            const oldItem = todoData[index];
+    const changeName = (id, text) => {
+        const index = todoData.findIndex((el) => el.id === id);
+        const oldItem = todoData[index];
 
-            const newItem = { ...oldItem, label: text };
+        const newItem = { ...oldItem, label: text };
 
-            const newData = [
-                ...todoData.slice(0, index),
-                newItem,
-                ...todoData.slice(index + 1),
-            ];
+        const newData = [
+            ...todoData.slice(0, index),
+            newItem,
+            ...todoData.slice(index + 1),
+        ];
 
-            return {
-                todoData: newData,
-            };
-        });
+        changeTodoData(newData);
     };
 
-    changeStatefilter = (label) => {
-        this.setState(() => {
-            const newFilter = label;
-            return {
-                filter: newFilter,
-            };
-        });
+    const clearCompleted = () => {
+        const activeTasks = todoData.filter((task) => !task.completed);
+        changeTodoData(activeTasks);
     };
 
-    clearCompleted = () => {
-        this.setState(({ todoData }) => {
-            const activeTasks = todoData.filter((task) => !task.completed);
-            return {
-                todoData: activeTasks,
-            };
-        });
-    };
-
-    changeDeadline = (id, newDeadline) => {
-        const { todoData } = this.state;
+    const changeDeadline = (id, newDeadline) => {
         const index = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[index];
 
@@ -106,66 +66,62 @@ export default class App extends Component {
             newItem,
             ...todoData.slice(index + 1),
         ];
-        this.setState(() => ({
-            todoData: newData,
-        }));
+        changeTodoData(newData);
     };
 
-    toggleProperty(id, propName) {
-        const { todoData } = this.state;
+    const toggleProperty = (id, propName) => {
         const index = todoData.findIndex((el) => el.id === id);
         const oldItem = todoData[index];
         const newItem = {
             ...oldItem,
             [propName]: !oldItem[propName],
         };
-        return [
-            ...todoData.slice(0, index),
-            newItem,
-            ...todoData.slice(index + 1),
-        ];
+
+        changeTodoData(() => {
+            return [
+                ...todoData.slice(0, index),
+                newItem,
+                ...todoData.slice(index + 1),
+            ];
+        });
+    };
+
+    const completedTasks = todoData.filter((el) => el.completed).length;
+    const todoTasks = todoData.length - completedTasks;
+
+    let todoItemsShown;
+    switch (filter) {
+        case 'Completed':
+            todoItemsShown = todoData.filter((el) => el.completed);
+            break;
+        case 'Active':
+            todoItemsShown = todoData.filter((el) => !el.completed);
+            break;
+        default:
+            todoItemsShown = todoData;
     }
 
-    render() {
-        const { todoData } = this.state;
-        const completedTasks = todoData.filter((el) => el.completed).length;
-        const todoTasks = todoData.length - completedTasks;
-
-        let todoItemsShown;
-        const { filter } = this.state;
-        switch (filter) {
-            case 'Completed':
-                todoItemsShown = todoData.filter((el) => el.completed);
-                break;
-            case 'Active':
-                todoItemsShown = todoData.filter((el) => !el.completed);
-                break;
-            default:
-                todoItemsShown = todoData;
-        }
-
-        return (
-            <section className='todoapp'>
-                <Header />
-                <NewTaskForm onTaskAdded={this.addTask} />
-                <section className='main'>
-                    <TaskList
-                        todos={todoItemsShown}
-                        onDeleted={this.deleteTask}
-                        onToggleCompleted={this.onToggleCompleted}
-                        onChangeName={this.changeName}
-                        changeDeadline={this.changeDeadline}
-                    />
-                    <Footer
-                        todoTasks={todoTasks}
-                        filter={filter}
-                        onFilterChange={this.changeStatefilter}
-                        onClearCompleted={this.clearCompleted}
-                    />
-                </section>
+    return (
+        <section className='todoapp'>
+            <Header />
+            <NewTaskForm onTaskAdded={addTask} />
+            <section className='main'>
+                <TaskList
+                    toggleProperty={toggleProperty}
+                    todos={todoItemsShown}
+                    onDeleted={deleteTask}
+                    onChangeName={changeName}
+                    changeDeadline={changeDeadline}
+                />
+                <Footer
+                    todoTasks={todoTasks}
+                    filter={filter}
+                    onClearCompleted={clearCompleted}
+                    changeFilter={changeFilter}
+                />
             </section>
-        );
-    }
+        </section>
+    );
 }
 
 App.defaultProps = {

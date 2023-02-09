@@ -1,79 +1,51 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable class-methods-use-this */
-import React, { Component } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import './Timer.css';
 
-export default class Timer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            existence: false,
-            timer: null,
-            time: this.props.deadline,
-        };
-    }
+export default function Timer({ deadline, completed, changeDeadline }) {
+    const [existence, changeExistence] = useState(false);
+    const [timer, setTimer] = useState(null);
+    const [time, countTime] = useState(deadline);
 
-    formatting = (seconds) => {
+    const formatting = (seconds) => {
         return [Math.floor((seconds / 60) % 60), Math.floor(seconds % 60)]
             .join(':')
             .replace(/\b(\d)\b/g, '0$1');
     };
 
-    onStop = () => {
-        this.setState(() => {
-            const { timer } = this.state;
-            return {
-                existence: false,
-                timer: clearInterval(timer),
-            };
-        });
+    const tick = () => {
+        if (!existence) return;
+        if (completed || time === 0) {
+            changeExistence(() => false);
+            setTimer(clearInterval(timer));
+        } else {
+            countTime((t) => t - 1);
+        }
     };
 
-    onStart = () => {
-        const { changeDeadline } = this.props;
-        const counter = setInterval(() => {
-            const { completed } = this.props;
-            const { time } = this.state;
-            const newTime = time - 1;
-            if (completed || newTime < 0) {
-                this.setState(() => ({
-                    timer: clearInterval(counter),
-                    existence: false,
-                }));
-            } else {
-                this.setState(
-                    () => ({
-                        timer: counter,
-                        time: newTime,
-                        existence: true,
-                    }),
-                    () => changeDeadline(this.state.time)
-                );
-            }
-        }, 1000);
-    };
+    useEffect(() => {
+        changeDeadline(time);
+    }, [time]);
 
-    render() {
-        const { time, existence } = this.state;
-        const btn = !existence ? (
-            <button
-                className='icon icon-play'
-                type='button'
-                onClick={this.onStart}
-            />
-        ) : (
-            <button
-                className='icon icon-pause'
-                type='button'
-                onClick={this.onStop}
-            />
-        );
+    useEffect(() => {
+        const counter = setInterval(() => tick(), 1000);
+        return () => clearInterval(counter);
+    });
 
-        return (
-            <span className='time'>
-                {btn}
-                {this.formatting(time)}
-            </span>
-        );
-    }
+    const onStart = () => changeExistence(() => true);
+
+    const onStop = () => changeExistence(() => false);
+
+    const btn = !existence ? (
+        <button className='icon icon-play' type='button' onClick={onStart} />
+    ) : (
+        <button className='icon icon-pause' type='button' onClick={onStop} />
+    );
+
+    return (
+        <span className='time'>
+            {btn}
+            {formatting(time)}
+        </span>
+    );
 }
