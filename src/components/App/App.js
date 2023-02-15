@@ -8,8 +8,8 @@ import Footer from '../Footer';
 import './App.css';
 
 export default function App() {
-    const [todoData, changeTodoData] = useState([]);
-    const [filter, changeFilter] = useState('All');
+    const [todoData, setTodoData] = useState([]);
+    const [filter, setFilter] = useState('All');
 
     const addTask = (text, sec) => {
         const time = Number.isNaN(sec) ? 0 : Number(sec);
@@ -20,7 +20,7 @@ export default function App() {
             completed: false,
             date: new Date(),
         };
-        changeTodoData((todos) => [...todos, newTask]);
+        setTodoData((todos) => [...todos, newTask]);
     };
 
     const deleteTask = (id) => {
@@ -30,7 +30,7 @@ export default function App() {
             ...todoData.slice(0, index),
             ...todoData.slice(index + 1),
         ];
-        changeTodoData(newData);
+        setTodoData(newData);
     };
 
     const changeName = (id, text) => {
@@ -45,12 +45,12 @@ export default function App() {
             ...todoData.slice(index + 1),
         ];
 
-        changeTodoData(newData);
+        setTodoData(newData);
     };
 
     const clearCompleted = () => {
         const activeTasks = todoData.filter((task) => !task.completed);
-        changeTodoData(activeTasks);
+        setTodoData(activeTasks);
     };
 
     const changeDeadline = (id, newDeadline) => {
@@ -66,7 +66,7 @@ export default function App() {
             newItem,
             ...todoData.slice(index + 1),
         ];
-        changeTodoData(newData);
+        setTodoData(newData);
     };
 
     const toggleProperty = (id, propName) => {
@@ -77,7 +77,7 @@ export default function App() {
             [propName]: !oldItem[propName],
         };
 
-        changeTodoData(() => {
+        setTodoData(() => {
             return [
                 ...todoData.slice(0, index),
                 newItem,
@@ -86,8 +86,7 @@ export default function App() {
         });
     };
 
-    const completedTasks = todoData.filter((el) => el.completed).length;
-    const todoTasks = todoData.length - completedTasks;
+    const todoTasks = todoData.filter((el) => !el.completed).length;
 
     let todoItemsShown;
     switch (filter) {
@@ -117,13 +116,9 @@ export default function App() {
                     todoTasks={todoTasks}
                     filter={filter}
                     onClearCompleted={clearCompleted}
-                    changeFilter={changeFilter}
+                    setFilter={setFilter}
                 />
             </section>
         </section>
     );
 }
-
-App.defaultProps = {
-    sec: 0,
-};

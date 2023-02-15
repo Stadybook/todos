@@ -15,7 +15,9 @@ export default function Timer({ deadline, completed, changeDeadline }) {
 
     const tick = () => {
         if (!existence) return;
-        if (completed || time === 0) {
+        if (completed) {
+            setTimer(clearInterval(timer));
+        } else if (time === 0) {
             changeExistence(() => false);
             setTimer(clearInterval(timer));
         } else {
@@ -37,9 +39,19 @@ export default function Timer({ deadline, completed, changeDeadline }) {
     const onStop = () => changeExistence(() => false);
 
     const btn = !existence ? (
-        <button className='icon icon-play' type='button' onClick={onStart} />
+        <button
+            disabled={!!completed}
+            className='icon icon-play'
+            type='button'
+            onClick={onStart}
+        />
     ) : (
-        <button className='icon icon-pause' type='button' onClick={onStop} />
+        <button
+            disabled={!!completed}
+            className='icon icon-pause'
+            type='button'
+            onClick={onStop}
+        />
     );
 
     return (

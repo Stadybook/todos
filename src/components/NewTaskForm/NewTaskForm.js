@@ -4,8 +4,7 @@ import './NewTaskForm.css';
 
 export default function NewTaskForm({ onTaskAdded }) {
     const [label, setLabel] = useState('');
-    const [minutes, setMinutes] = useState('');
-    const [seconds, setSeconds] = useState('');
+    const [time, setTime] = useState({ minutes: '', seconds: '' });
 
     const onLabelChange = (e) => {
         if (e.target.value.length === 1) {
@@ -18,11 +17,12 @@ export default function NewTaskForm({ onTaskAdded }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const sec = Number(minutes) * 60 + Number(seconds);
+        const sec =
+            Math.abs(Number(time.minutes) * 60) +
+            Math.abs(Number(time.seconds));
         onTaskAdded(label, sec);
         setLabel('');
-        setMinutes('');
-        setSeconds('');
+        setTime({ minutes: '', seconds: '' });
     };
 
     return (
@@ -39,15 +39,23 @@ export default function NewTaskForm({ onTaskAdded }) {
                 className='new-todo-form__timer'
                 name='minutes'
                 placeholder='Min'
-                onChange={(e) => setMinutes(e.target.value)}
-                value={minutes}
+                onChange={(e) =>
+                    setTime((prev) => {
+                        return { ...prev, minutes: e.target.value };
+                    })
+                }
+                value={time.minutes}
             />
             <input
                 className='new-todo-form__timer'
                 name='seconds'
                 placeholder='Sec'
-                onChange={(e) => setSeconds(e.target.value)}
-                value={seconds}
+                onChange={(e) =>
+                    setTime((prev) => {
+                        return { ...prev, seconds: e.target.value };
+                    })
+                }
+                value={time.seconds}
             />
             <input className='hidden' type='submit' />
         </form>

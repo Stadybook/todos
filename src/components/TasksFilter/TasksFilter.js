@@ -2,29 +2,15 @@ import PropTypes from 'prop-types';
 
 import './TasksFilter.css';
 
-export default function TasksFilter({ filter, changeFilter }) {
+export default function TasksFilter({ filter, setFilter }) {
     const btns = [{ name: 'All' }, { name: 'Active' }, { name: 'Completed' }];
 
     const onClick = (event) => {
         const classSelected = 'selected';
-
-        const buttons = document.querySelectorAll('.footer button');
-
-        buttons.forEach((button) => {
-            if (button.textContent === filter) {
-                if (!button.classList.contains(classSelected)) {
-                    button.classList.add(classSelected);
-                }
-            }
-        });
         if (event.target.classList.contains(classSelected)) {
             return;
         }
-        buttons.forEach((button) => {
-            button.classList.remove(classSelected);
-        });
-        event.target.classList.add(classSelected);
-        changeFilter(event.target.textContent);
+        setFilter(event.target.textContent);
     };
 
     return (
@@ -47,5 +33,5 @@ export default function TasksFilter({ filter, changeFilter }) {
 }
 
 TasksFilter.propTypes = {
-    changeFilter: PropTypes.func.isRequired,
+    setFilter: PropTypes.func.isRequired,
 };
